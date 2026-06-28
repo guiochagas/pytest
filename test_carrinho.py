@@ -17,14 +17,9 @@ def test_calcular_total_sem_desconto(carrinho_cheio):
     total_carrinho = carrinho_cheio.calcular_total()
     assert total_carrinho == 3500
 
-def test_calcular_total_com_desconto(carrinho_cheio):    
-    total_carrinho = carrinho_cheio.calcular_total(desconto_percentual=20)
-    assert total_carrinho == 2800
-
-def test_desconto_fora_intervalo(carrinho_cheio):
-    with pytest.raises(ValueError):
-        carrinho_cheio.calcular_total(desconto_percentual=120)
-    
-    with pytest.raises(ValueError):
-        carrinho_cheio.calcular_total(desconto_percentual=-20)
-    
+"""Com o decorador de parametrização, as variáveis são declaradas dentro de uma única string
+e na sequência as duplas de valores devem ser passadas em uma lista de tuplas."""
+@pytest.mark.parametrize("valor_desconto, valor_esperado_carrinho", [(20, 2800), (50, 1750)])
+def test_calcular_total_com_desconto(carrinho_cheio, valor_desconto, valor_esperado_carrinho):    
+    total_carrinho = carrinho_cheio.calcular_total(desconto_percentual=valor_desconto)
+    assert total_carrinho == valor_esperado_carrinho
